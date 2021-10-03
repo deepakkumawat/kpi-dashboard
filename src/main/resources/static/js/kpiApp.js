@@ -28,7 +28,7 @@ angular.module('kpiApp', ['ngMaterial', 'ngMessages'])
             legend: { position: 'bottom' }
         };
         var apmRpcChartOptions = {
-            title: 'APM RPC Timeline',
+            title: 'Average profit margin & RPC Timeline',
             curveType: 'function',
             legend: { position: 'bottom' }
         };
@@ -50,9 +50,9 @@ angular.module('kpiApp', ['ngMaterial', 'ngMessages'])
             apmRpcChart = new google.visualization.LineChart(document.getElementById('apm_rpc_DataCart'));
             apmRpcChart.draw(google.visualization.arrayToDataTable([apmRpcChartHeaders].concat([[0, 0, 0]])), apmRpcChartOptions);
 
-            //Loading data for last 10 days
-            var _toDate = new Date();
-            var _fromDate = new Date();
+            //Data hardcoded dates
+            var _fromDate = new Date("2020-01-05");
+            var _toDate = new Date("2020-01-05");
             _fromDate.setDate(_fromDate.getDate() - 10);
             kpiDashboard.fromDate = _fromDate;
             kpiDashboard.toDate = _toDate;
@@ -80,7 +80,7 @@ angular.module('kpiApp', ['ngMaterial', 'ngMessages'])
                     barChart.draw(google.visualization.arrayToDataTable([barChartHeaders].concat(barCharData)), barChartOptions);
                     aovCvrChart.draw(google.visualization.arrayToDataTable([aovCvrChartHeaders].concat(aovCvrChartData)), aovCvrChartOptions);
                     carCacCart.draw(google.visualization.arrayToDataTable([carCacChartHeaders].concat(carCacCartData)), carCacCartOptions);
-                    apmRpcChart.draw(google.visualization.arrayToDataTable([apmRpcChartHeaders].concat(carCacCartData)), carCacCartOptions);
+                    apmRpcChart.draw(google.visualization.arrayToDataTable([apmRpcChartHeaders].concat(carCacCartData)), apmRpcChartOptions);
                 });
         }
 

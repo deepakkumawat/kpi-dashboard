@@ -45,27 +45,6 @@ public class SpringFoxConfig {
     @Value("${swagger.enable:true}")
     private boolean enableSwagger;
 
-    private static RequestParameter userIdentifier() {
-        return new RequestParameterBuilder()
-                .name(HeaderNames.USER_ID.getValue())
-                .description("Customer identifier")
-                .accepts(Collections.singleton(MediaType.TEXT_PLAIN))
-                .in(ParameterType.HEADER)
-                .required(true)
-                .build();
-    }
-
-    private static RequestParameter language() {
-        return new RequestParameterBuilder()
-                .name(HeaderNames.LANGUAGE.getValue())
-                .description("Locale identifier")
-                .accepts(Collections.singleton(MediaType.TEXT_PLAIN))
-                .in(ParameterType.HEADER)
-                .required(false)
-                .example(createParameterExampleValue("en", "Locale identification code. Format: language[_country-code]"))
-                .build();
-    }
-
     private static Example createParameterExampleValue(Object value, String description) {
         return new Example(String.valueOf(System.currentTimeMillis()), "Summary not available", description, value, null, MediaType.TEXT_PLAIN_VALUE);
     }
@@ -86,17 +65,6 @@ public class SpringFoxConfig {
         return new Contact("deepakk@abc.app", null, "https://www.martech.com/");
     }
 
-    private static RequestParameter token() {
-        return new RequestParameterBuilder()
-                .name(HeaderNames.TOKEN.getValue())
-                .description("Authorization Token")
-                .accepts(Collections.singleton(MediaType.TEXT_PLAIN))
-                .in(ParameterType.HEADER)
-                .required(false)
-                .example(createParameterExampleValue("en", "Authorization code. Format: Bearer-{token}"))
-                .build();
-    }
-
     @Bean
     public Docket apiDocket() {
         List<Response> commonResponses = Collections.singletonList(errorResponseModel());
@@ -112,7 +80,7 @@ public class SpringFoxConfig {
 
                 .useDefaultResponseMessages(false)
 
-                .globalRequestParameters(Arrays.asList(language(), uniqueId(), token()))
+                .globalRequestParameters(Arrays.asList(uniqueId()))
 
                 .globalResponses(HttpMethod.GET, commonResponses)
                 .globalResponses(HttpMethod.POST, commonResponses)
@@ -123,7 +91,7 @@ public class SpringFoxConfig {
 
     private Tag[] tags() {
         return new Tag[]{
-                new Tag("KPIDataController", "Maintains APIs responsible to provide and load the KPI data")
+                new Tag("KPIController", "Maintains APIs responsible to provide and load the KPI data")
         };
     }
 
