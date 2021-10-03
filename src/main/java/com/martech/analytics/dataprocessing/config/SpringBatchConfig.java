@@ -19,6 +19,7 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 
 @Configuration
@@ -27,6 +28,9 @@ public class SpringBatchConfig {
 
     @Value("${chunkSize}")
     private int chunkSize;
+
+    @Value("${dataFilePath}")
+    private String dataFilePath;
 
     @Bean
     public Job job(JobBuilderFactory jobBuilderFactory,
@@ -53,7 +57,7 @@ public class SpringBatchConfig {
     public FlatFileItemReader<KPIDataModel> itemReader() {
 
         FlatFileItemReader<KPIDataModel> flatFileItemReader = new FlatFileItemReader<>();
-        flatFileItemReader.setResource(new FileSystemResource("src/main/resources/input/KPIData.csv"));
+        flatFileItemReader.setResource(new ClassPathResource(dataFilePath));
         flatFileItemReader.setName("CSV-Reader");
         flatFileItemReader.setLinesToSkip(1);
         flatFileItemReader.setLineMapper(lineMapper());

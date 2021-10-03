@@ -21,10 +21,10 @@ public class Processor implements ItemProcessor<KPIDataModel, KPIDataEntity> {
 
     private void calculateKPIs(KPIDataEntity kpiDataEntity) {
         kpiDataEntity.setAov(kpiDataEntity.getGrossRevenue() / kpiDataEntity.getOrders());
-        kpiDataEntity.setCvr(0l);
+        kpiDataEntity.setCvr((kpiDataEntity.getOrders()*100)/kpiDataEntity.getClicks());
         kpiDataEntity.setCar(0l);
-        kpiDataEntity.setCac(0l);
+        kpiDataEntity.setCac(kpiDataEntity.getMarketingCost()/kpiDataEntity.getOrders());
         kpiDataEntity.setAverageProfitMargin(0l);
-        kpiDataEntity.setRpc(0l);
+        kpiDataEntity.setRpc(kpiDataEntity.getGrossRevenue() / kpiDataEntity.getCustomersAcquired());
     }
 }

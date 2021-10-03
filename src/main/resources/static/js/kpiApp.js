@@ -7,7 +7,7 @@ angular.module('kpiApp', ['ngMaterial', 'ngMessages'])
     var kpiDashboard = this;
     var defaultBrand = "ABC";
     var barChartHeaders = ['Date', 'Orders', 'Gross revenue', 'Gross margin', 'Add to carts', 'Customer acquired', 'Clicks', 'Marketing cost(USD)'];
-    var aovChartHeaders = ['Date', 'AOV'];
+    var aovCvrChartHeaders = ['Date', 'AOV', 'CVR'];
     var barChartOptions = {
       chart: {
         title: 'Brand Performance',
@@ -15,12 +15,12 @@ angular.module('kpiApp', ['ngMaterial', 'ngMessages'])
       }
     };
 
-    var aovChartOptions = {
-      title: 'Company Performance',
+    var aovCvrChartOptions = {
+      title: 'AOV Timeline',
       curveType: 'function',
       legend: { position: 'bottom' }
     };
-    var barChart, aovChart;
+    var barChart, aovCvrChart;
     kpiDashboard.brands = [{val: defaultBrand}];
 
     function setupInitialDashboard() {
@@ -29,8 +29,8 @@ angular.module('kpiApp', ['ngMaterial', 'ngMessages'])
       // Initial chart setup
       barChart = new google.charts.Bar(document.getElementById('wholeDataChart'));
       barChart.draw(google.visualization.arrayToDataTable([barChartHeaders]), google.charts.Bar.convertOptions(barChartOptions));
-      aovChart = new google.visualization.LineChart(document.getElementById('aovDataCart'));
-      aovChart.draw(google.visualization.arrayToDataTable([aovChartHeaders]), aovChartOptions);
+      aovCvrChart = new google.visualization.LineChart(document.getElementById('aov_cvr_DataCart'));
+      aovCvrChart.draw(google.visualization.arrayToDataTable([aovCvrChartHeaders]), aovCvrChartOptions);
 
       //Loading data for last 10 days
       var _toDate = new Date();
@@ -53,12 +53,12 @@ angular.module('kpiApp', ['ngMaterial', 'ngMessages'])
             return [rec.date, rec.orders, rec.grossRevenue, rec.grossMargin, rec.addToCarts, rec.customersAcquired, rec.clicks, rec.marketingCost];
           });
 
-          var aovChartData = _data.data.map(rec => {
-            return [rec.date, rec.aov];
+          var aovCvrChartData = _data.data.map(rec => {
+            return [rec.date, rec.aov, rec.cvr];
           });
 
           barChart.draw(google.visualization.arrayToDataTable([barChartHeaders].concat(chart1Data)), barChartOptions);
-          aovChart.draw(google.visualization.arrayToDataTable([aovChartHeaders].concat(aovChartData)), aovChartOptions);
+          aovCvrChart.draw(google.visualization.arrayToDataTable([aovCvrChartHeaders].concat(aovCvrChartData)), aovCvrChartOptions);
       });
     }
 
